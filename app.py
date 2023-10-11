@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image
+from PIL import Image,ExifTags
 
 def process_image(base_img, img1, img2, img3, img4):
     base_img = base_img.copy()
@@ -16,6 +16,34 @@ def process_image(base_img, img1, img2, img3, img4):
     
     return base_img
 
+def orient_image(img):
+    """EXIF情報を元に画像を正しいオリエンテーションに調整します"""
+    for orientation in ExifTags.TAGS.keys():
+        if ExifTags.TAGS[orientation] == 'Orientation':
+            break
+
+    try:
+        exif = img._getexif()
+        if exif is not None and orientation in exif:
+            if exif[orientation] == 2:
+                img = img.transpose(Image.FLIP_LEFT_RIGHT)
+            elif exif[orientation] == 3:
+                img = img.rotate(180)
+            elif exif[orientation] == 4:
+                img = img.rotate(180).transpose(Image.FLIP_LEFT_RIGHT)
+            elif exif[orientation] == 5:
+                img = img.rotate(-90, expand=True).transpose(Image.FLIP_LEFT_RIGHT)
+            elif exif[orientation] == 6:
+                img = img.rotate(-90, expand=True)
+            elif exif[orientation] == 7:
+                img = img.rotate(90, expand=True).transpose(Image.FLIP_LEFT_RIGHT)
+            elif exif[orientation] == 8:
+                img = img.rotate(90, expand=True)
+    except (AttributeError, KeyError, IndexError):
+        # 画像にEXIF情報がない場合、何もしない
+        pass
+    return img
+
 st.title("ポンチしんぶん せいさくアプリ")
 
 base_image = Image.open("ponchi.png")
@@ -26,10 +54,10 @@ uploaded_img3 = st.file_uploader("サブしゃしん２ をアップロードし
 uploaded_img4 = st.file_uploader("きみのしゃしん をアップロードしてください (4.jpg)", type="jpg")
 
 if uploaded_img1 and uploaded_img2 and uploaded_img3 and uploaded_img4:
-    img1 = Image.open(uploaded_img1)
-    img2 = Image.open(uploaded_img2)
-    img3 = Image.open(uploaded_img3)
-    img4 = Image.open(uploaded_img4)
+    img1 = orient_image(Image.open(uploaded_img1))
+    img2 = orient_image(Image.open(uploaded_img2))
+    img3 = orient_image(Image.open(uploaded_img3))
+    img4 = orient_image(Image.open(uploaded_img4))
 
     result = process_image(base_image, img1, img2, img3, img4)
     st.image(result, caption="完成した画像", use_column_width=True)
