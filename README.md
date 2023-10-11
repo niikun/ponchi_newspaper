@@ -1,2 +1,2 @@
 # ponchi_newspaper
-create aponchi news paper
+create a ponchi news paper
