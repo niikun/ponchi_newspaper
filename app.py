@@ -16,6 +16,24 @@ def process_image(base_img, img1, img2, img3, img4):
     
     return base_img
 
+def center_crop(img, desired_size):
+    w, h = img.size
+
+    # 横長の場合、通常のリサイズを行う
+    if w > h:
+        img = img.resize(desired_size, Image.ANTIALIAS)
+        return img
+
+    # 縦長の場合、中心を基準にクロップ
+    th, tw = desired_size
+    left = (w - tw) / 2
+    top = (h - th) / 2
+    right = left + tw
+    bottom = top + th
+    img = img.crop((left, top, right, bottom))
+    img = img.resize(desired_size, Image.ANTIALIAS)
+    return img
+
 def orient_image(img):
     """EXIF情報を元に画像を正しいオリエンテーションに調整します"""
     for orientation in ExifTags.TAGS.keys():
