@@ -32,17 +32,34 @@ def orient_image(img):
 
 def center_crop(img, desired_size):
     w, h = img.size
-    if w > h:  # 横長の場合
-        img = img.resize(desired_size)
-    else:  # 縦長の場合
-        th, tw = desired_size
-        left = (w - tw) / 2
-        top = (h - th) / 2
-        right = left + tw
-        bottom = top + th
-        img = img.crop((left, top, right, bottom))
-        img = img.resize(desired_size)
+    desired_w, desired_h = desired_size
+
+    # アスペクト比を計算
+    img_ratio = w / h
+    desired_ratio = desired_w / desired_h
+
+    # 元の画像のアスペクト比を基準にリサイズ
+    if img_ratio > desired_ratio:
+        # 元の画像が横長の場合
+        new_w = int(desired_w * h / desired_h)
+        new_h = h
+    else:
+        # 元の画像が縦長、または同じアスペクト比の場合
+        new_w = w
+        new_h = int(desired_h * w / desired_w)
+
+    # 画像をリサイズ
+    img = img.resize((new_w, new_h))
+
+    # 画像の中央を目的のサイズにクロップ
+    left = (new_w - desired_w) / 2
+    top = (new_h - desired_h) / 2
+    right = left + desired_w
+    bottom = top + desired_h
+    img = img.crop((left, top, right, bottom))
+
     return img
+
 
 def process_image(base_img, img1, img2, img3, img4):
     base_img = base_img.copy()
