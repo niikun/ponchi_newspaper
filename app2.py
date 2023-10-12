@@ -58,7 +58,7 @@ def process_image(base_img, img1, img2, img3, img4):
     base_img.paste(img4, (68, 880))
 
     a4_size = (2100, 2970)  # A4サイズ
-    base_img = base_img.resize(a4_size, Image.ANTIALIAS)
+    base_img = base_img.resize(a4_size)
     return base_img
 
 def get_image_download_link(img, filename="output.png", text="Download result image"):
