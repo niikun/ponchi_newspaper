@@ -96,10 +96,10 @@ def resize_and_pad(img, desired_size):
     # 新しい画像を生成して白で塗りつぶす
     new_img = Image.new("RGB", desired_size, color="white")
     
-    # 元の画像を中央に配置
-    x_offset = (desired_w - new_w) // 2
-    y_offset = (desired_h - new_h) // 2
-    new_img.paste(img, (x_offset, y_offset))
+    # 元の画像を左上に配置
+    new_img.paste(img, (0, 0))
+
+    return new_img
 
     return new_img
 
