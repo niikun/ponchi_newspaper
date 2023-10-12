@@ -38,27 +38,27 @@ def center_crop(img, desired_size):
     img_ratio = w / h
     desired_ratio = desired_w / desired_h
 
-    # 元の画像のアスペクト比を基準にリサイズ
+    # リサイズするサイズを計算
     if img_ratio > desired_ratio:
         # 元の画像が横長の場合
-        new_w = int(desired_w * h / desired_h)
-        new_h = h
+        resize_w = int(h * desired_ratio)
+        resize_h = h
     else:
         # 元の画像が縦長、または同じアスペクト比の場合
-        new_w = w
-        new_h = int(desired_h * w / desired_w)
+        resize_w = w
+        resize_h = int(w / desired_ratio)
 
-    # 画像をリサイズ
-    img = img.resize((new_w, new_h))
+    img = img.resize((resize_w, resize_h), Image.ANTIALIAS)
 
     # 画像の中央を目的のサイズにクロップ
-    left = (new_w - desired_w) / 2
-    top = (new_h - desired_h) / 2
+    left = (resize_w - desired_w) / 2
+    top = (resize_h - desired_h) / 2
     right = left + desired_w
     bottom = top + desired_h
     img = img.crop((left, top, right, bottom))
 
     return img
+
 
 
 def process_image(base_img, img1, img2, img3, img4):
