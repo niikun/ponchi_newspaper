@@ -48,7 +48,7 @@ def center_crop(img, desired_size):
         resize_w = w
         resize_h = int(w / desired_ratio)
 
-    img = img.resize((resize_w, resize_h), Image.ANTIALIAS)
+    img = img.resize((resize_w, resize_h))
 
     # 画像の中央を目的のサイズにクロップ
     left = (resize_w - desired_w) / 2
