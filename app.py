@@ -31,7 +31,7 @@ def center_crop(img, desired_size):
     right = left + tw
     bottom = top + th
     img = img.crop((left, top, right, bottom))
-    img = img.resize(desired_size, Image.ANTIALIAS)
+    img = img.resize(desired_size)
     return img
 
 def orient_image(img):
