@@ -33,7 +33,7 @@ def orient_image(img):
 def center_crop(img, desired_size):
     w, h = img.size
     if w > h:  # 横長の場合
-        img = img.resize(desired_size, Image.ANTIALIAS)
+        img = img.resize(desired_size)
     else:  # 縦長の場合
         th, tw = desired_size
         left = (w - tw) / 2
@@ -67,12 +67,12 @@ def get_image_download_link(img, filename="output.png", text="Download result im
     img_str = base64.b64encode(buffered.getvalue()).decode()
     return f'<a target="_blank" href="data:image/png;base64,{img_str}" download="{filename}">{text}</a>'
 
-st.title("新聞台紙画像貼り付けアプリ")
+st.title("ポンチしんぶん いんさつしょ")
 
-uploaded_img1 = st.file_uploader("メイン画像をアップロードしてください (1.jpg)", type="jpg")
-uploaded_img2 = st.file_uploader("サブ画像1をアップロードしてください (2.jpg)", type="jpg")
-uploaded_img3 = st.file_uploader("サブ画像2をアップロードしてください (3.jpg)", type="jpg")
-uploaded_img4 = st.file_uploader("吹き出し画像をアップロードしてください (4.jpg)", type="jpg")
+uploaded_img1 = st.file_uploader("メインのえ をアップロードしてください (1.jpg)", type="jpg")
+uploaded_img2 = st.file_uploader("サブのえ をアップロードしてください (2.jpg)", type="jpg")
+uploaded_img3 = st.file_uploader("サブのえ をアップロードしてください (3.jpg)", type="jpg")
+uploaded_img4 = st.file_uploader("あなたのしゃしん をアップロードしてください (4.jpg)", type="jpg")
 
 if all([uploaded_img1, uploaded_img2, uploaded_img3, uploaded_img4]):
     img1 = orient_image(Image.open(uploaded_img1))
@@ -81,8 +81,8 @@ if all([uploaded_img1, uploaded_img2, uploaded_img3, uploaded_img4]):
     img4 = orient_image(Image.open(uploaded_img4))
 
     result = process_image(Image.open("ponchi.png"), img1, img2, img3, img4)
-    st.image(result, caption="完成した画像", use_column_width=True)
+    st.image(result, caption="できた！", use_column_width=True)
     
     st.markdown(get_image_download_link(result), unsafe_allow_html=True)
 else:
-    st.image("ponchi.png", caption="ベース画像", use_column_width=True)
+    st.image("ponchi.png", caption="いんさつまえ", use_column_width=True)
