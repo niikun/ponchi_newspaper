@@ -45,9 +45,9 @@ def get_image_download_link(img, filename="output.png", text="ダウンロード
     href = f'<a href="data:image/png;base64,{img_str}" download="{filename}">{text}</a>'
     return href
 
-st.title("ポンチしんぶん しゃいんしょ いんさつしょ")
+st.title("ポンチしんぶん\nしゃいんしょ いんさつしょ")
 
-uploaded_img1 = st.file_uploader("あなたの写真をアップロードしてください", type=["jpg", "jpeg"])
+uploaded_img1 = st.file_uploader("あなたの しゃしんを アップロードして!", type=["jpg", "jpeg"])
 
 if uploaded_img1:
     img1 = Image.open(uploaded_img1)
