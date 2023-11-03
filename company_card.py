@@ -37,7 +37,7 @@ def process_image(base_img, img1, name):
     base_img.paste(img1, (80, 280))
     
     # 名前を描画するためのフォントとサイズを設定
-    font = ImageFont.truetype("arial.ttf", 40)  # 'arial.ttf'はシステムにインストールされたフォントに置き換えてください
+    font = ImageFont.truetype("sans serif", 40)  # 'arial.ttf'はシステムにインストールされたフォントに置き換えてください
     draw = ImageDraw.Draw(base_img)
     
     # 名前を画像上に配置する位置を設定（x, y座標）
