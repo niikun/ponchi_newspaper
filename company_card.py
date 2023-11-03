@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image, ExifTags
+from PIL import Image, ExifTags, ImageDraw, ImageFont
 import io
 import base64
 
@@ -31,16 +31,23 @@ def orient_image(img):
     return img
 
 
-def process_image(base_img, img1):
+def process_image(base_img, img1, name):
     base_img = base_img.copy()
-
     img1 = resize_and_pad(img1, (220, 220))
-
     base_img.paste(img1, (80, 280))
+    
+    # 名前を描画するためのフォントとサイズを設定
+    font = ImageFont.truetype("arial.ttf", 40)  # 'arial.ttf'はシステムにインストールされたフォントに置き換えてください
+    draw = ImageDraw.Draw(base_img)
+    
+    # 名前を画像上に配置する位置を設定（x, y座標）
+    text_position = (400, 380)  # ここはカードのデザインに合わせて調整してください
+    
+    # 黒色でテキストを描画
+    draw.text(text_position, name, font=font, fill="black")
 
-    # a5_size = (1480,2100)  # A5サイズ
-    # base_img = base_img.resize(a5_size)
     return base_img
+
 
 def resize_and_pad(img, desired_size):
     w, h = img.size
@@ -68,14 +75,19 @@ def get_image_download_link(img, filename="output.png", text="いんさつして
     img_str = base64.b64encode(buffered.getvalue()).decode()
     return f'<a target="_blank" href="data:image/png;base64,{img_str}" download="{filename}">{text}</a>'
 
+
 st.title("ポンチしんぶん しゃいんしょ いんさつしょ")
+
+# 名前入力フィールドを追加
+name = st.text_input("あなたのなまえをにゅうりょくしてください", "")
 
 uploaded_img1 = st.file_uploader("あなたの しゃしん をアップロードしてください (1.jpg)", type="jpg")
 
-if all([uploaded_img1]):
+if all([uploaded_img1, name]):
     img1 = orient_image(Image.open(uploaded_img1))
 
-    result = process_image(Image.open("ponchi_company_card.png"), img1)
+    # 名前も画像処理関数に渡す
+    result = process_image(Image.open("ponchi_company_card.png"), img1, name)
     st.image(result, caption="できた！", use_column_width=True)
     
     st.markdown(get_image_download_link(result), unsafe_allow_html=True)
