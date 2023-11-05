@@ -41,7 +41,7 @@ def process_image(base_img, img1, name):
     draw = ImageDraw.Draw(base_img)
     
     # 名前を画像上に配置する位置を設定（x, y座標）
-    text_position = (400, 360)  # ここはカードのデザインに合わせて調整してください
+    text_position = (400, 365)  # ここはカードのデザインに合わせて調整してください
     
     # 黒色でテキストを描画
     draw.text(text_position, name, font=font, fill="black")
