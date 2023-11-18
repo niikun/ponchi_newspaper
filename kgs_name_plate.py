@@ -43,8 +43,8 @@ def center_crop_to_square(img, size):
 
 def process_image(base_img, img1, name1,name2):
     base_img = base_img.copy()
-    img1 = center_crop_to_square(img1, 200)
-    base_img.paste(img1, (50, 160))
+    img1 = center_crop_to_square(img1, 190)
+    base_img.paste(img1, (50, 165))
     
     # 名前を描画するためのフォントとサイズを設定
     font1 = ImageFont.truetype("NotoSansJP-Regular.ttf", 35) 
@@ -52,8 +52,8 @@ def process_image(base_img, img1, name1,name2):
     draw = ImageDraw.Draw(base_img)
     
     # 名前を画像上に配置する位置を設定（x, y座標）
-    text_position1 = (265, 250)
-    text_position2 = (265, 200)  # ここはカードのデザインに合わせて調整してください
+    text_position1 = (265, 195)
+    text_position2 = (265, 160)  # ここはカードのデザインに合わせて調整してください
     
     # 黒色でテキストを描画
     draw.text(text_position2, name2, font=font2, fill="Orange")
