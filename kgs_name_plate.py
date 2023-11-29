@@ -47,8 +47,8 @@ def process_image(base_img, img1, name1,name2):
     base_img.paste(img1, (50, 165))
     
     # 名前を描画するためのフォントとサイズを設定
-    font1 = ImageFont.truetype("NotoSansJP-Regular.ttf", 35) 
-    font2 = ImageFont.truetype("NotoSansJP-Regular.ttf", 25) 
+    font1 = ImageFont.truetype("NotoSansJP-ExtraBold.ttf", 35) 
+    font2 = ImageFont.truetype("NotoSansJP-ExtraBold.ttf", 25) 
     draw = ImageDraw.Draw(base_img)
     
     # 名前を画像上に配置する位置を設定（x, y座標）
