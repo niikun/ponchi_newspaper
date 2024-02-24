@@ -64,7 +64,6 @@ def resize_and_pad(img, desired_size):
 
     return new_img
 
-    return new_img
 
 def get_image_download_link(img, filename="output.png", text="いんさつしてね！"):
     buffered = io.BytesIO()
